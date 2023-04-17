@@ -41,69 +41,89 @@ def show_debug(state:bool):
     debug = bool(state)
     if debug:
         print(f"{debug_text}: Debug mode has been activated!")
-    
 
-class Flow:
-    class Tables:
-        def create(db,table_name):
-            path = f"data/databases/{db}/tables/{table_name}"
-            if not os.path.exists(path):
+
+
+class River:
+    def create(db,table_name):
+        path = f"data/flows/{db}/rivers/{table_name}"
+        if not os.path.exists(path):
+            try:
                 os.mkdir(path)
-            else:
-                raise Exception("Table already exists!")
-        
-        def remove(db,table_name):
-            path = f"data/databases/{db}/tables/{table_name}"
-            if not os.path.exists(path):
-                raise Exception("Table not found!")
-            else:
-                os.rmdir(path)
+            except:
+                raise Exception("Could not create river! Is a folder missing?")
+        else:
+            raise Exception("River already exists!")
     
-    class Drops:
-        def set(key:str,value:str,database:str,table:str):
-            path = f"data/databases/{database}/tables/{table}"
+    def remove(db,table_name):
+        path = f"data/flows/{db}/rivers/{table_name}"
+        if not os.path.exists(path):
+            raise Exception("River not found!")
+        else:
+            try:
+                os.rmdir(path)
+            except:
+                raise Exception("Could not remove river! Is a folder missing?")
+
+class Drops:
+    def set(key:str,value:str,flow:str,table:str):
+        path = f"data/flows/{flow}/rivers/{table}"
+        try:
             with open(path+f"/{key}.water","w") as file:
                 file.write(str(value))
                 file.close()
                 if debug:
                     print(f"{debug_text}: Created Drop")
-
-        def get(key,database,table):
-            path = f"data/databases/{database}/tables/{table}"
+        except:
+            raise Exception("Could not create drop! Is a folder missing?")
+    def get(key,flow,table):
+        path = f"data/flows/{flow}/rivers/{table}"
+        try:
             with open(path+f"/{key}.water","r") as file:
                 data = file.read()
                 return str(data)
-    
-    class Databases:
-        def create(name):
-            path = f"data/databases/{name}"
+        except:
+            raise Exception("Could not get drop! Is a folder missing?")
+
+class Flows:
+    def create(name):
+        path = f"data/flows/{name}"
+        try:
             if not os.path.exists(path):
                 os.mkdir(path)
-                tables = f"data/databases/{name}/tables"
+                tables = f"data/flows/{name}/rivers"
                 os.mkdir(tables)
                 with open(path+"/info.water", "w") as file:
                     file.write(f"Created at {datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')}\n")
                     file.close()
                 if debug:
-                    print(f"{debug_text}: Database has been created!")
+                    print(f"{debug_text}: Flow has been created!")
             else:
-                raise Exception("Database already exists!")
+                raise Exception("Flow already exists!")
+        except:
+            raise Exception("Could not create Flow! Is a folder missing?")
         
-        def ls_tables(db_name:str):
-            old = glob.glob(f"data/databases/{db_name}/tables/*")
+    def ls_rivers(db_name:str):
+        try:
+            old = glob.glob(f"data/flows/{db_name}/rivers/*")
             folders = []
             for folder in old:
-                folder = folder.replace(f"data/databases/{db_name}/tables","")
+                folder = folder.replace(f"data/flows/{db_name}/rivers","")
                 folder = folder.replace(f"""\\""","")
                 folders.append(folder)
-            tables = folders
-            return tables
-
-        def remove(name):
-            path = f"data/databases/{name}"
+            rivers = folders
+            return rivers
+        except:
+            raise Exception("Could not list rivers! Is a folder missing?")
+    
+    def remove(name):
+        try:
+            path = f"data/flows/{name}"
             if not os.path.exists(path):
-                raise Exception("Database not found!")
+                raise Exception("Flow not found!")
             else:
                 os.rmdir(path)
                 if debug:
-                    print(f"{debug_text}: Database has been dropped!")
+                    print(f"{debug_text}: Flow has been dropped!")  
+        except:
+            raise Exception("Could not remove River! Is a folder missing?")
