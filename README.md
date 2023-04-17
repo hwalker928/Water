@@ -23,8 +23,6 @@
 
 > Set the Password after install in the Startup Tab 
 
-> Set your Network port in the Startup Tab
-
 > **Done! You created your own Water Server!**
 
 ## Use it
