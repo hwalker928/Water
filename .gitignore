@@ -146,13 +146,11 @@ test3.py
 # Cython debug symbols
 cython_debug/
 
-testing
 
-ui.py
+databases/
+
 #website and Dashboard
-.website/
-.api/
-newdash/
+
 
 #ads
 .Ads/*
@@ -160,12 +158,3 @@ newdash/
 
 __pycache__
 __pycache__/*
-#read me
-README.md
-#.vscode
-.vscode/
-
-
-/WEBAPI
-newdash
-premium

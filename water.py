@@ -3,7 +3,6 @@ Water
 ~~~~~~~
 Database written in Python
 
-### DO NOT DO FROM IMPORTS!!!
 """
 import os
 import datetime
@@ -44,14 +43,37 @@ def show_debug(state:bool):
         print(f"{debug_text}: Debug mode has been activated!")
     
 
-class Crypt:
-    def encrypt(content):
-        pass
-    def decrypt(content):
-        pass
-
-
 class Flow:
+    class Tables:
+        def create(db,table_name):
+            path = f"data/databases/{db}/tables/{table_name}"
+            if not os.path.exists(path):
+                os.mkdir(path)
+            else:
+                raise Exception("Table already exists!")
+        
+        def remove(db,table_name):
+            path = f"data/databases/{db}/tables/{table_name}"
+            if not os.path.exists(path):
+                raise Exception("Table not found!")
+            else:
+                os.rmdir(path)
+    
+    class Drops:
+        def set(key:str,value:str,database:str,table:str):
+            path = f"data/databases/{database}/tables/{table}"
+            with open(path+f"/{key}.water","w") as file:
+                file.write(str(value))
+                file.close()
+                if debug:
+                    print(f"{debug_text}: Created Drop")
+
+        def get(key,database,table):
+            path = f"data/databases/{database}/tables/{table}"
+            with open(path+f"/{key}.water","r") as file:
+                data = file.read()
+                return str(data)
+    
     class Databases:
         def create(name):
             path = f"data/databases/{name}"
@@ -68,10 +90,16 @@ class Flow:
                 raise Exception("Database already exists!")
         
         def ls_tables(db_name:str):
-            folders = glob.glob("data/databases/tables")
-            print(folders)
+            old = glob.glob(f"data/databases/{db_name}/tables/*")
+            folders = []
+            for folder in old:
+                folder = folder.replace(f"data/databases/{db_name}/tables","")
+                folder = folder.replace(f"""\\""","")
+                folders.append(folder)
+            tables = folders
+            return tables
 
-        def drop(name):
+        def remove(name):
             path = f"data/databases/{name}"
             if not os.path.exists(path):
                 raise Exception("Database not found!")
