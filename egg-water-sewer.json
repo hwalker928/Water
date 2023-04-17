@@ -4,7 +4,7 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2023-04-17T20:24:55+00:00",
+    "exported_at": "2023-04-17T20:28:03+00:00",
     "name": "Water Sewer",
     "author": "parker@parkervcp.com",
     "description": "space@space.losti-bot.xyz if you have questions!\r\nor on Discord: Space_Banane#5444",
@@ -135,7 +135,7 @@
             "default_value": "5000",
             "user_viewable": true,
             "user_editable": true,
-            "rules": "required|int|max:20",
+            "rules": "required|int",
             "field_type": "text"
         }
     ]
