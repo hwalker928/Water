@@ -1,9 +1,14 @@
+"""
+Water Sewer"""
 from fastapi import FastAPI, Request
 import asyncio
 import water
 import os
 water.init()
-passwd = os.environ.get('WATER_PASSWORD')
+if os.environ.get('WATER_PASSWORD') == None:
+    passwd = "default123!PLEASECHANGEME!!!"
+else:
+    passwd = os.environ.get('WATER_PASSWORD')
 app = FastAPI()
 
 
