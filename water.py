@@ -7,6 +7,7 @@ Database written in Python
 import os
 import datetime
 import glob
+import shutil
 from cryptography.fernet import Fernet
 
 
@@ -45,7 +46,7 @@ def show_debug(state:bool):
 
 
 class River: # Tables
-    def create(db,table_name):
+    async def create(db,table_name):
         path = f"data/flows/{db}/rivers/{table_name}"
         if not os.path.exists(path):
             try:
@@ -55,7 +56,7 @@ class River: # Tables
         else:
             raise Exception("River already exists!")
     
-    def remove(db,table_name):
+    async def remove(db,table_name):
         path = f"data/flows/{db}/rivers/{table_name}"
         if not os.path.exists(path):
             raise Exception("River not found!")
@@ -66,7 +67,7 @@ class River: # Tables
                 raise Exception("Could not remove river! Is a folder missing?")
 
 class Drops: # Uhh, dunno
-    def set(key:str,value:str,flow:str,table:str):
+    async def set(key:str,value:str,flow:str,table:str):
         path = f"data/flows/{flow}/rivers/{table}"
         try:
             with open(path+f"/{key}.water","w") as file:
@@ -77,17 +78,27 @@ class Drops: # Uhh, dunno
         except:
             raise Exception("Could not create drop! Is a folder missing?")
     
-    def get(key,flow,table):
+    async def get(key,flow,table):
         path = f"data/flows/{flow}/rivers/{table}"
         try:
             with open(path+f"/{key}.water","r") as file:
                 data = file.read()
                 return str(data)
-        except:
+        except Exception as e:
+            print("This mf : ",e)
             raise Exception("Could not get drop! Is a folder missing?")
 
+    async def delete(key,flow,table):
+        try:
+            path = f"data/flows/{flow}/rivers/{table}/{key}.water"
+            os.remove(path)
+            if debug:
+                print(f"{debug_text}: Removed Drop")
+        except:
+            raise Exception("Could not delete drop! Is a folder missing?")
+
 class Flows:# Databases
-    def create(name):
+    async def create(name):
         path = f"data/flows/{name}"
         try:
             if not os.path.exists(path):
@@ -104,7 +115,7 @@ class Flows:# Databases
         except:
             raise Exception("Could not create Flow! Is a folder missing?")
         
-    def ls_rivers(db_name:str):
+    async def ls_rivers(db_name:str):
         try:
             old = glob.glob(f"data/flows/{db_name}/rivers/*")
             folders = []
@@ -117,13 +128,13 @@ class Flows:# Databases
         except:
             raise Exception("Could not list rivers! Is a folder missing?")
     
-    def remove(name):
+    async def remove(flow):
         try:
-            path = f"data/flows/{name}"
+            path = f"data/flows/{flow}"
             if not os.path.exists(path):
                 raise Exception("Flow not found!")
             else:
-                os.rmdir(path)
+                shutil.rmtree(path)
                 if debug:
                     print(f"{debug_text}: Flow has been dropped!")  
         except:
