@@ -4,7 +4,7 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2023-04-17T20:28:03+00:00",
+    "exported_at": "2023-04-17T20:29:51+00:00",
     "name": "Water Sewer",
     "author": "parker@parkervcp.com",
     "description": "space@space.losti-bot.xyz if you have questions!\r\nor on Discord: Space_Banane#5444",
@@ -13,7 +13,7 @@
         "Python 3.9": "ghcr.io\/parkervcp\/yolks:python_3.9"
     },
     "file_denylist": [],
-    "startup": "if [[ -d .git ]] && [[ \"{{AUTO_UPDATE}}\" == \"1\" ]]; then git pull; fi; if [[ ! -z \"{{PY_PACKAGES}}\" ]]; then pip install -U --prefix .local {{PY_PACKAGES}}; fi; if [[ -f \/home\/container\/${REQUIREMENTS_FILE} ]]; then pip install -U --prefix .local -r ${REQUIREMENTS_FILE}; fi;  \/usr\/local\/bin\/python -m uvicorn server:app",
+    "startup": "if [[ -d .git ]] && [[ \"{{AUTO_UPDATE}}\" == \"1\" ]]; then git pull; fi; if [[ ! -z \"{{PY_PACKAGES}}\" ]]; then pip install -U --prefix .local {{PY_PACKAGES}}; fi; if [[ -f \/home\/container\/${REQUIREMENTS_FILE} ]]; then pip install -U --prefix .local -r ${REQUIREMENTS_FILE}; fi;  \/usr\/local\/bin\/python -m uvicorn server:app --port {{NETWORK_PORT}}",
     "config": {
         "files": "{}",
         "startup": "{\r\n    \"done\": \"Uvicorn running\"\r\n}",
