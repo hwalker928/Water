@@ -44,7 +44,7 @@ def show_debug(state:bool):
 
 
 
-class River:
+class River: # Tables
     def create(db,table_name):
         path = f"data/flows/{db}/rivers/{table_name}"
         if not os.path.exists(path):
@@ -65,7 +65,7 @@ class River:
             except:
                 raise Exception("Could not remove river! Is a folder missing?")
 
-class Drops:
+class Drops: # Uhh, dunno
     def set(key:str,value:str,flow:str,table:str):
         path = f"data/flows/{flow}/rivers/{table}"
         try:
@@ -76,6 +76,7 @@ class Drops:
                     print(f"{debug_text}: Created Drop")
         except:
             raise Exception("Could not create drop! Is a folder missing?")
+    
     def get(key,flow,table):
         path = f"data/flows/{flow}/rivers/{table}"
         try:
@@ -85,7 +86,7 @@ class Drops:
         except:
             raise Exception("Could not get drop! Is a folder missing?")
 
-class Flows:
+class Flows:# Databases
     def create(name):
         path = f"data/flows/{name}"
         try:
