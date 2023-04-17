@@ -155,6 +155,6 @@ databases/
 #ads
 .Ads/*
 
-
+.data/key.water
 __pycache__
 __pycache__/*
